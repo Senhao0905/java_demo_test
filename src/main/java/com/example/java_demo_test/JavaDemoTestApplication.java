@@ -8,6 +8,8 @@ public class JavaDemoTestApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(JavaDemoTestApplication.class, args);
+		
+		
 	}
 
 }
