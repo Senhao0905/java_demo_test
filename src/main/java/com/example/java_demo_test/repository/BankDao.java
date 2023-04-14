@@ -7,6 +7,7 @@ import com.example.java_demo_test.entity.Bank;
 
 @Repository
 public interface BankDao extends JpaRepository<Bank, String> {
+	public Bank findByAccountAndPwd(String account , String pwd);
 	
 
 }
