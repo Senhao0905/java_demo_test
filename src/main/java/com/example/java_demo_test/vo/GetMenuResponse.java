@@ -9,16 +9,16 @@ public class GetMenuResponse {
 	private String message;
 
 	public GetMenuResponse() {
-		
+
 	}
 
 	public GetMenuResponse(String message) {
-		
+
 		this.message = message;
 	}
 
 	public GetMenuResponse(Menu menu, String message) {
-		
+
 		this.menu = menu;
 		this.message = message;
 	}

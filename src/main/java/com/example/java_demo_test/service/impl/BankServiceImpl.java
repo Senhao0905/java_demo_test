@@ -15,7 +15,7 @@ import com.example.java_demo_test.vo.BankResponse;
 public class BankServiceImpl implements BankService {
 
 	private String checkAccount = "[\\w&&[^_]]{3,8}";
-	private String checkPwd = "[\\w[.~!@#$%]]{8,16}";
+	private String checkPwd = "[\\w[.~!@#$%]+]{8,16}";
 
 	@Autowired
 	private BankDao bankDao;
@@ -36,7 +36,7 @@ public class BankServiceImpl implements BankService {
 
 	}
 
-	private void checkAccount(Bank bank) {
+	void checkAccount(Bank bank) {
 		if (bank == null || bank.getAccount() == null) {
 			System.out.println("不可為空");
 			return;

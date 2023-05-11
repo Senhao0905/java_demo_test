@@ -20,6 +20,14 @@ dependencies {
 	//mysql conneter
 	implementation 'mysql:mysql-connector-java:8.0.32'
 	
+	//swagger api
+	//http://localhost:8080/swagger-ui/index.html
+	//implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	
+	//OPENapi
+	implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
+	
+	
 	
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

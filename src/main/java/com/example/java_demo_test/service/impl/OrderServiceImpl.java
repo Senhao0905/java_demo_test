@@ -24,6 +24,8 @@ import com.example.java_demo_test.vo.OrderResponse;
 import com.fasterxml.jackson.core.sym.Name;
 import com.fasterxml.jackson.databind.introspect.DefaultAccessorNamingStrategy.FirstCharBasedValidator;
 
+import net.bytebuddy.utility.dispatcher.JavaDispatcher.IsConstructor;
+
 @Service
 public class OrderServiceImpl implements OrderService {
 
@@ -157,20 +159,51 @@ public class OrderServiceImpl implements OrderService {
 //		}
 		// 修改
 		Map<String, Integer> resMap = new HashMap<>();
-		List<Menu> menus = orderDao.findAll();
+		
 		int originalTotalPrice = 0;
-		for (Menu menu : menus) {
-			for (Entry<String, Integer> m : map.entrySet()) {
-				if (menu.getName().equalsIgnoreCase(m.getKey())) {
-					if (m.getValue() <= 0) {
-						return new OrderResponse("餐點數量錯誤");
-					}
-					originalTotalPrice += (menu.getPrice() * m.getValue());
-					resMap.put(m.getKey(), m.getValue());
-					break;
-				}
+		
+		for (Entry<String, Integer> m : map.entrySet()) {
+			if(m.getValue() <= 0) {
+				return new OrderResponse("數量錯誤");
 			}
+			Optional<Menu> op = orderDao.findById(m.getKey()); //盡量不要在迴圈中進入資料庫
+			if(!op.isPresent()) {
+				continue;
+			}
+			
+			resMap.put(m.getKey(), m.getValue());
+			
+			originalTotalPrice += op.get().getPrice() * m.getValue();
 		}
+		
+
+		// 作業
+//		Map<String, Integer> resMap = new HashMap<>();
+//		List<Menu> menus = orderDao.findAll();
+//		for (Menu menu : menus) {
+//			for (Entry<String, Integer> m : map.entrySet()) {
+//				if (m.getValue() <= 0) {
+		
+//					return new OrderResponse("數量錯誤");
+		
+//				}				
+//				if (orderDao.existsById(m.getKey())) {	
+//					if (menu.getName().equals(m.getKey())) {
+		
+//						originalTotalPrice += menu.getPrice() * m.getValue();
+		
+//						resMap.put(m.getKey(), m.getValue());
+		
+//					}
+//				}
+//			}
+//		}
+
+		if (resMap.size() == 0) {
+			return new OrderResponse("點餐失敗");
+		}
+
+		
 
 		if (originalTotalPrice < 500) {
 			return new OrderResponse("點餐成功", resMap, originalTotalPrice, originalTotalPrice);
@@ -198,4 +231,33 @@ public class OrderServiceImpl implements OrderService {
 		return new GetMenuResponse(op.get(), "查詢成功");
 	}
 
+	@Override
+	public OrderResponse updateMenuPrice(List<Menu> menus) {
+		if (CollectionUtils.isEmpty(menus)) {
+			return new OrderResponse("格式錯誤");
+		}
+		// orderdao.existsById 檢查id是否存在資料庫 結果為布林值
+		// 此寫法須注意資料庫大小 大量資料時不太適合
+		List<Menu> menu = orderDao.findAll();
+		List<Menu> resMenu = new ArrayList<Menu>();
+		for (Menu change : menus) {
+			for (Menu original : menu) {
+				if (change.getPrice() <= 0) {
+					return new OrderResponse("價格不能為0或負數");
+				}
+				if (change.getName().equalsIgnoreCase(original.getName())) {
+					resMenu.add(change);
+				}
+			}
+		}
+		if (resMenu.size() == 0) {
+			return new OrderResponse("菜單不存在");
+		}
+		return new OrderResponse(orderDao.saveAll(resMenu), "價格修改成功");
+	}
+
+	@Override
+	public OrderResponse getMenu() {
+		return new OrderResponse(orderDao.findAll(), "菜單");
+	}
 }

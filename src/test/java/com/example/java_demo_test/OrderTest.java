@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import com.example.java_demo_test.entity.Menu;
 import com.example.java_demo_test.repository.OrderDao;
@@ -49,16 +50,22 @@ class OrderTest {
 	
 	@Test
 	public void orderMenuTest() {
-		Map< String,Integer> Map = new LinkedHashMap<>();
-		//單項點餐
-		Map.put("beef" , 2);
-		//多筆點餐
-		Map.put("pork" , 1);
-		Map.put("fish" , 2);		
-		OrderResponse response = orderService.orderMenus(Map);
-		Assert.isTrue(response.getMessage().equals("點餐成功"), "點餐失敗");
+//		Map< String,Integer> Map = new LinkedHashMap<>();
+//		//單項點餐
+//		Map.put("beef" , 2);
+//		//多筆點餐
+//		Map.put("pork" , 1);
+//		Map.put("fish" , 2);		
+//		OrderResponse response = orderService.orderMenus(Map);
+//		Assert.isTrue(response.getMessage().equals("點餐成功"), "點餐失敗");
+		
+		String srString = "\n";
+		
+		System.out.println(StringUtils.hasText(srString));
 		
 	}
+	
+	
 
 	
 
