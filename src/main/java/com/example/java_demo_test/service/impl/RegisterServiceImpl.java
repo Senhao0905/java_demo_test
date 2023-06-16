@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -68,6 +69,8 @@ public class RegisterServiceImpl implements RegisterService {
 		return new RegisterResponse("welcome");
 	}
 
+	
+	@Cacheable(value = "account" , key = "#account")
 	@Override
 	public RegisterResponse getRegTime(String account, String pwd) {
 		if (!StringUtils.hasText(account) || !StringUtils.hasText(pwd)) {

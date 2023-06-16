@@ -27,6 +27,13 @@ dependencies {
 	//OPENapi
 	implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
 	
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-cache
+	//cache
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
+	
+	// https://mvnrepository.com/artifact/com.github.ben-manes.caffeine/caffeine
+	//caffeine cache
+	implementation 'com.github.ben-manes.caffeine:caffeine'
 	
 	
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
